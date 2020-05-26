@@ -211,10 +211,28 @@ $ cat ca.srl
 ```
 FA5040FBF24BB30B
 ```
-# Pàgina 17 
 
+# L'entitat li enviarà al client el certificat generat: server.crt
 
+# El client que ha sol·licitat el certificat pot validar el certificat respecte la seva clau privada
+$ openssl x509 -noout -modulus -in server.crt | openssl md5
+```
+(stdin)= 8234d1e997bb75579106326f170cf90d
+```
+$ openssl rsa -noout -modulus -in server.key | openssl md5
+```
+Enter pass phrase for server.key: serverkey
+(stdin)= 8234d1e997bb75579106326f170cf90d
+```
 
+# Afegir ​ passfrase ​ a la clau privada (generem un nou fitxer de clau privada)
+$ openssl rsa -des3 -in server.key -out passfrase.server.key
+```
+Enter pass phrase for server.key:
+writing RSA key
+Enter PEM pass phrase: serverkey
+Verifying - Enter PEM pass phrase: serverkey
+```
 
 
 
