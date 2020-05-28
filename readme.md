@@ -368,40 +368,40 @@ dn: dc=edt,dc=org
 \# openssl s_client -connect ldap.edt.org:636
 ```
 CONNECTED(00000003)
-depth=1 C = ca, ST = Barcelona, L = Barcelona, O = Escola del Treball, OU = Informatica, CN = www.edt.org, emailAddress = admin@edt.org
+depth=1 C = ca, ST = Barcelona, L = Barcelona, O = Veritat Absoluta, OU = Informatica, CN = www.edt.org, emailAddress = admin@edt.org
 verify error:num=19:self signed certificate in certificate chain
 ---
 Certificate chain
  0 s:/C=ca/ST=Barcelona/L=Cerdanyola/O=Casa del Pau/OU=Dep de la meva habitacio/CN=ldap.edt.org/emailAddress=admin@edt.org
-   i:/C=ca/ST=Barcelona/L=Barcelona/O=Escola del Treball/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
- 1 s:/C=ca/ST=Barcelona/L=Barcelona/O=Escola del Treball/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
-   i:/C=ca/ST=Barcelona/L=Barcelona/O=Escola del Treball/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
+   i:/C=ca/ST=Barcelona/L=Barcelona/O=Veritat Absoluta/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
+ 1 s:/C=ca/ST=Barcelona/L=Barcelona/O=Veritat Absoluta/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
+   i:/C=ca/ST=Barcelona/L=Barcelona/O=Veritat Absoluta/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
 ---
 Server certificate
 -----BEGIN CERTIFICATE-----
-MIID9TCCAt2gAwIBAgIJAMAt8437MieeMA0GCSqGSIb3DQEBBQUAMIGcMQswCQYD
+MIID8zCCAtugAwIBAgIJAObxKHt2e9wJMA0GCSqGSIb3DQEBBQUAMIGaMQswCQYD
 VQQGEwJjYTESMBAGA1UECAwJQmFyY2Vsb25hMRIwEAYDVQQHDAlCYXJjZWxvbmEx
-GzAZBgNVBAoMEkVzY29sYSBkZWwgVHJlYmFsbDEUMBIGA1UECwwLSW5mb3JtYXRp
-Y2ExFDASBgNVBAMMC3d3dy5lZHQub3JnMRwwGgYJKoZIhvcNAQkBFg1hZG1pbkBl
-ZHQub3JnMB4XDTIwMDUyODE2NTQ1OFoXDTIxMDUyODE2NTQ1OFowgaUxCzAJBgNV
-BAYTAmNhMRIwEAYDVQQIDAlCYXJjZWxvbmExEzARBgNVBAcMCkNlcmRhbnlvbGEx
-FTATBgNVBAoMDENhc2EgZGVsIFBhdTEhMB8GA1UECwwYRGVwIGRlIGxhIG1ldmEg
-aGFiaXRhY2lvMRUwEwYDVQQDDAxsZGFwLmVkdC5vcmcxHDAaBgkqhkiG9w0BCQEW
-DWFkbWluQGVkdC5vcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDS
-0NetuDeB6EeO7tEmuvabj7CwBo3f0uZPIcXI0xD9J4nGpU1z6QPaayraOuXdfRAK
-5DVnkaLNM5pYi3jet0oSDDVkRcs52ANzTKpLwkmYFDZOuuPCVnXA53kVvptKE+aQ
-CD8s/vyaVC94zsxu2PxP4zAKOVrmbUtG2CJiDQhqb45ks5JVnTgHW2EVo3niboN/
-v2BTIGR2rqu4FgwOmI4dGWpdLqd7I/cvCVzvvgHOEw1PNXpTCEdSyzlCZH0pDlpA
-ThGP/jsKwugw7ASsgKNEiuYP+UkfSLwWYXJc80RTMtE7linj60rM+ryLunHHyYmS
-nQIEdv5fFY89Dud14pq9AgMBAAGjLzAtMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwEGCCsGAQUFBwMEMA0GCSqGSIb3DQEBBQUAA4IBAQA/MSUgVwcq
-tsvMrA2IjVYy7axNQEFVofCH2eGoid6GwezvBtKx9JO1nW0UQcVRcErpnweCKxGe
-0KNi4XroxNXWEe+bXe7WVeeowr2Bo9iEjE1gtKrBF0FH978h5gAWqh8M/pIlKO7T
-GP2Dxdn+4KxKP1J+NbevBec1HK0WzCP8VUizYO3a0syNy3Sj+q97cjnQRx9URc2F
-SZhptOyDjudKBwzqarV01L5NWj4nLNOdHmBSDcPzau/DARyPj5cB9/tX0F/0t6E3
-DsULu8DrHMCN/lPmj9mJjFkSPdCszISFnuRVaGMbWwOuUSCnisxnL3gDEkSGqKgM
-xQWmj6YhbedH
+GTAXBgNVBAoMEFZlcml0YXQgQWJzb2x1dGExFDASBgNVBAsMC0luZm9ybWF0aWNh
+MRQwEgYDVQQDDAt3d3cuZWR0Lm9yZzEcMBoGCSqGSIb3DQEJARYNYWRtaW5AZWR0
+Lm9yZzAeFw0yMDA1MjgxNzMyMTZaFw0yMTA1MjgxNzMyMTZaMIGlMQswCQYDVQQG
+EwJjYTESMBAGA1UECAwJQmFyY2Vsb25hMRMwEQYDVQQHDApDZXJkYW55b2xhMRUw
+EwYDVQQKDAxDYXNhIGRlbCBQYXUxITAfBgNVBAsMGERlcCBkZSBsYSBtZXZhIGhh
+Yml0YWNpbzEVMBMGA1UEAwwMbGRhcC5lZHQub3JnMRwwGgYJKoZIhvcNAQkBFg1h
+ZG1pbkBlZHQub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnCJ3
+G2VCSuQWFoPL+NodAMy1qbDSJKVyPwBrGASRacRjMQw8lgV+uptBsU+4RHao3oQr
+MKHLESL9/SDgGLIl1w1x13CaxYplcxegtDy12A3xmTAJw2V9Y0cJ9ShnXPRVjlUX
+TIc2lxa2Ca1FlFjIvQDrOMA8eNJA7sPWa4b3A5EZuQXrrscZ35uJTZYmOrkfoK6O
+Rti/0hJYwPD9jOg/m0vVOOXWKCwZUwDECYMIv9l6SfuRg8xxAObTWyU4GUwtmQks
+CFuwD2se3XgKxzPMAwmn99BdPs2tgRTIYeWvMosUjqZg9oHoXsDFx4wC3Ocm//SQ
+Hqtny7NlllfCVvxJ3QIDAQABoy8wLTAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQG
+CCsGAQUFBwMBBggrBgEFBQcDBDANBgkqhkiG9w0BAQUFAAOCAQEAn88cM4hveMCs
+uVeu15AAs9RMEQmP78h1Z4IF2H6lDwRlaiKIrbhBTld+uzWOgcrj0Md6D4jplbHq
+/yU38qx/NVyXOTt7SH9TMAeg4jz2+19RCDXQwWwNamfFLVjHIF2xS15Mo9faPwBa
++Xt+VaHCQx6GV1+z2TZB3I2rXVszB4XzjAM4mtHyWUYlm5k2MDCTTkRgzkcokVf2
+Jl8UDH1kZ1Tm2/b/2Q6NTxpk/Z0+BWJoyDVzHIkLCYGUkL1VzxNl9Z+AxjneEusZ
+6131BYozNz9XhXGp51f1VI0bNMbJIM3/8aWnO1U0DTA8q5VtpPOC8oX/+9EFBN2K
+1fe2R9J9jg==
 -----END CERTIFICATE-----
 subject=/C=ca/ST=Barcelona/L=Cerdanyola/O=Casa del Pau/OU=Dep de la meva habitacio/CN=ldap.edt.org/emailAddress=admin@edt.org
-issuer=/C=ca/ST=Barcelona/L=Barcelona/O=Escola del Treball/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
-```
+issuer=/C=ca/ST=Barcelona/L=Barcelona/O=Veritat Absoluta/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
+---
