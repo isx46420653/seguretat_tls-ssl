@@ -404,4 +404,219 @@ Jl8UDH1kZ1Tm2/b/2Q6NTxpk/Z0+BWJoyDVzHIkLCYGUkL1VzxNl9Z+AxjneEusZ
 -----END CERTIFICATE-----
 subject=/C=ca/ST=Barcelona/L=Cerdanyola/O=Casa del Pau/OU=Dep de la meva habitacio/CN=ldap.edt.org/emailAddress=admin@edt.org
 issuer=/C=ca/ST=Barcelona/L=Barcelona/O=Veritat Absoluta/OU=Informatica/CN=www.edt.org/emailAddress=admin@edt.org
----
+```
+
+# Openvpn
+
+### Generem claus privades del servidor
+
+$ openssl genrsa -out cakey.pem 2048
+```
+Generating RSA private key, 2048 bit long modulus
+............+++++
+.............................................+++++
+e is 65537 (0x010001)
+```
+
+$ openssl req -new -x509 -nodes -sha1 -days 365 -key cakey.pem -out cacert.pem
+```
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:ca
+State or Province Name (full name) []:Barcelona
+Locality Name (eg, city) [Default City]:Barcelona
+Organization Name (eg, company) [Default Company Ltd]:Veritat Absoluta
+Organizational Unit Name (eg, section) []:Informatica
+Common Name (eg, your name or your server's hostname) []:www.edt.org
+Email Address []:admin@edt.org
+```
+
+### Generar la clau del servidor i el request
+
+$ openssl dhparam -out dh2048.pem 2048
+```
+Generating DH parameters, 2048 bit long safe prime, generator 2
+This is going to take a long time
+...........................................+.......................................................+..+.........................................................................................................................................................................................................+............+....................................................................................................................................................................+........................................................+................................................................................................................................................................................................................................................+..............................+.......+.............................................................................................................................+...........................+..........+..............................................................................................................+...................................................................................................................................................................+.......................................................++*++*++*++*
+```
+
+$ openssl genrsa  -out serverkey.pem 2048   
+```
+Generating RSA private key, 2048 bit long modulus
+..................................................................+++++
+...........+++++
+e is 65537 (0x010001)
+```
+
+# Request a la CA
+$ openssl req -new -key serverkey.pem -out serverrequest.pem
+```
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:ca
+State or Province Name (full name) []:Barcelona
+Locality Name (eg, city) [Default City]:Cerdanyola
+Organization Name (eg, company) [Default Company Ltd]:VPN
+Organizational Unit Name (eg, section) []:VPN
+Common Name (eg, your name or your server's hostname) []:VPN
+Email Address []:admin@vpn.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:request password
+An optional company name []:edt
+```
+
+### Utilitzem el fitxer [ext.server.conf](openvpn/server/ext.server.conf)
+
+### Generem el certificat per a 365 dies amb el fitxer ext.server.conf
+$ openssl x509 -CAkey cakey.pem -CA cacert.pem -req -in serverrequest.pem -days 365 -CAcreateserial -extfile ext.server.conf -out servercert.pem
+```
+Signature ok
+subject=C = ca, ST = Barcelona, L = Cerdanyola, O = VPN, OU = VPN, CN = VPN, emailAddress = admin@vpn.org
+Getting CA Private Key
+```
+
+# Generem les claus del client
+
+### Generem la clau i request del client
+
+$ openssl genrsa -out clientkey1.pem 2048        
+```
+Generating RSA private key, 2048 bit long modulus
+.........+++++
+.....................................................................................................+++++
+e is 65537 (0x010001)
+```
+
+$ openssl req -new -key clientkey1.pem -out clientrequest_1.pem                     
+```
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:ca
+State or Province Name (full name) []:Barcelona
+Locality Name (eg, city) [Default City]:Cerdanyola
+Organization Name (eg, company) [Default Company Ltd]:Client 1
+Organizational Unit Name (eg, section) []:VPN
+Common Name (eg, your name or your server's hostname) []:VPN
+Email Address []:client1@vpn.org
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:request password
+An optional company name []:edt
+```
+
+### Utilitzem el fitxer [ext.client.conf](openvpn/client_1/ext.client.conf)
+
+### Generem el certificat
+
+$ openssl x509 -CAkey cakey.pem -CA cacert.pem -req -in clientrequest_1.pem -days 365 -CAcreateserial -extfile ext.client.conf -out clientcertificate_1.pem  
+```
+Signature ok
+subject=C = ca, ST = Barcelona, L = Cerdanyola, O = Client 1, OU = VPN, CN = VPN, emailAddress = client1@vpn.org
+Getting CA Private Key
+```
+
+### Repetim els mateixos passos amb el segon client
+
+# Configuració Amazon AWS
+
+## Servidor
+
+### Copiem el fitxer del servei a /etc/ i modifiquem l'original
+
+
+[root@ip-172-31-28-253 ~]# sudo cp /lib/systemd/system/openvpn-server@.service /etc/systemd/system/.
+[root@ip-172-31-28-253 ~]# vi /etc/systemd/system/openvpn-server\@.service
+```
+[Unit]
+Description=OpenVPN service for %I
+After=syslog.target network-online.target
+
+[Service]
+Type=forking
+PrivateTmp=true
+ExecStartPre=/usr/bin/echo vpn servei %i %I
+ExecStart=/usr/sbin/openvpn --daemon --cd /etc/openvpn --config vpnserver.conf
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Modifiquem el fitxer de configuració del servidor vpn
+
+[root@ip-172-31-28-253 ~]# cp /usr/share/doc/openvpn/sample/sample-config-files/server.conf /etc/openvpn/vpnserver.conf
+
+[vpnserver.conf](openvpn/server/vpnserver.conf)
+
+### Posem les claus al directori /etc/openvpn/keys
+
+$ scp -i ~/clau_pau.pem cacert.pem dh2048.pem servercert.pem serverkey.pem fedora@3.8.170.229:/home/fedora
+[fedora@ip-172-31-28-253 ~]$ sudo cp * /etc/openvpn/keys/
+
+### Arranquem el servidor
+[root@ip-172-31-28-253 ~]# sudo systemctl start openvpn-server@vpnserver.service
+
+### Estructura al directori /etc/openvpn
+```
+/etc/openvpn/
+├── client
+├── ipp.txt
+├── keys
+│   ├── cacert.pem
+│   ├── dh2048.pem
+│   ├── servercert.pem
+│   └── serverkey.pem
+├── openvpn-status.log
+├── server
+└── vpnserver.conf
+
+3 directories, 7 files
+```
+
+## Client
+
+### Modifiquem el fitxer de configuració dels clients
+
+[client_1.conf](openvpn/client_1/client_1.conf)
+
+[client_2.conf](openvpn/client_2/client_2.conf)
+
+### Copiem les claus al directori /etc/openvpn/keys i el fitxer de configuració
+
+[Pau@portatil client_1]$ sudo cp cacert.pem clientcertificate_1.pem clientkey1.pem /etc/openvpn/keys/
+
+[Pau@portatil client_1]$ sudo cp client_1.conf /etc/openvpn/client/
+
+### Arranquem el servei
+
+[Pau@portatil client_1]$ sudo systemctl start openvpn-client@client_1
+
+### Comprovem
+[Pau@portatil client_1]$ sudo systemctl status openvpn-client@client_1
+```
+● openvpn-client@client_1.service - OpenVPN tunnel for client_1
+   Loaded: loaded (/usr/lib/systemd/system/openvpn-client@.service; disabled; vendor preset: disabled)
+   Active: active (running) since Sat 2020-05-30 20:48:33 CEST; 10min ago
+     Docs: man:openvpn(8)
+           https://community.openvpn.net/openvpn/wiki/Openvpn24ManPage
+           https://community.openvpn.net/openvpn/wiki/HOWTO
+ Main PID: 5123 (openvpn)
+   Status: "Pre-connection initialization successful"
+```
